@@ -1,5 +1,5 @@
-use experiments::inspirations::tyler_hobbs::{model, update, view};
+use experiments::inspirations::tyler_hobbs::{model, update};
 
 fn main() {
-    nannou::app(model).update(update).simple_window(view).run();
+    nannou::app(model).update(update).run();
 }
