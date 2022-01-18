@@ -18,18 +18,14 @@ pub fn model(app: &App) -> Model {
 
     let particles = (1..NUM_PARTICLES)
         .map(|_| {
-            let mut p = Particle::new(
+            Particle::new(
                 random_range(-app.window_rect().w() / 2.0, app.window_rect().w() / 2.0),
                 random_range(-app.window_rect().h() / 2.0, app.window_rect().h() / 2.0),
                 Box::new(perlin),
-            );
-
-            println!("{:?}", p);
-
-            p.set_amplitude(6.0);
-            p.set_frequency(0.001);
-            p.set_step(0.2);
-            p
+            )
+            // .set_amplitude(6.0)
+            // .set_frequency(0.001)
+            // .set_step(0.2)
         })
         .collect();
 

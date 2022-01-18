@@ -20,14 +20,14 @@ pub struct Particle {
 impl fmt::Debug for Particle {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         f.debug_struct("Particle")
-         .field("position",&self.position)
-         .field("velocity",&self.velocity)
-         .field("acceleration",&self.acceleration)
-         .field("frequency",&self.frequency)
-         .field("amplitude",&self.amplitude)
-         .field("step",&self.step)
-         .field("points",&self.points)
-         .finish()
+            .field("position", &self.position)
+            .field("velocity", &self.velocity)
+            .field("acceleration", &self.acceleration)
+            .field("frequency", &self.frequency)
+            .field("amplitude", &self.amplitude)
+            .field("step", &self.step)
+            .field("points", &self.points)
+            .finish()
     }
 }
 
@@ -38,23 +38,26 @@ impl Particle {
             velocity: vec2(0.0, 0.0),
             acceleration: vec2(0.0, 0.0),
             noise,
-            frequency: 10.0,
-            amplitude: 10.0,
+            frequency: 0.001,
+            amplitude: 6.0,
             step: 0.2,
             points: vec![],
         }
     }
 
-    pub fn set_frequency(&mut self, f: f64) {
+    pub fn set_frequency(mut self, f: f64) -> Self {
         self.frequency = f;
+        self
     }
 
-    pub fn set_amplitude(&mut self, a: f64) {
+    pub fn set_amplitude(mut self, a: f64) -> Self {
         self.amplitude = a;
+        self
     }
 
-    pub fn set_step(&mut self, s: f32) {
+    pub fn set_step(mut self, s: f32) -> Self {
         self.step = s;
+        self
     }
 
     pub fn move_particle(&mut self) {
