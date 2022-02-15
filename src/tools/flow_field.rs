@@ -101,10 +101,26 @@ impl Particle {
     }
 
     pub fn draw_line<'a>(&self, draw: &'a Draw) -> Drawing<'a, Path> {
-        draw.path().stroke().stroke_weight(10.0).points(self.points.clone())
+        draw.path()
+            .stroke()
+            .stroke_weight(10.0)
+            .points(self.points.clone())
     }
 
     pub fn line(&self) -> &Vec<Point2> {
         &self.points
+    }
+
+    pub fn height(&self) -> f32 {
+        let (max, min) = self.points.iter().map(|p| p.y).fold(
+            (std::f32::MIN, std::f32::MAX),
+            |acc, x| match acc {
+                (max, min) if x > max && x < min => (x, x),
+                (max, min) if x > max => (x, min),
+                (max, min) if x < min => (max, x),
+                _ => acc,
+            },
+        );
+        max - min
     }
 }
