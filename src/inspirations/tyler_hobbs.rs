@@ -21,6 +21,13 @@ const NUM_GROUPS: u32 = 2;
 const NUM_PAIRS: u32 = 10;
 const COLORS: [f32; 3] = [0.0, 150.0, 210.0];
 
+const LIGHT_ROSE: (f32, f32, f32) = (4.0 / 360.0, 0.75, 0.87);
+const TEAL: (f32, f32, f32) = (170.0 / 360.0, 0.55, 0.41);
+const DARK_GREY: (f32, f32, f32) = (17.0 / 360.0, 0.19, 0.24);
+const DENIM: (f32, f32, f32) = (210.0 / 360.0, 0.37, 0.39);
+const RED: (f32, f32, f32) = (358.0 / 360.0, 0.58, 0.50);
+const MAC_AND_CHEESE: (f32, f32, f32) = (40.0 / 360.0, 0.96, 0.61);
+
 pub fn model(app: &App) -> Model {
     let window = app.new_window().size(846, 1080).view(view).build().unwrap();
 
@@ -67,8 +74,8 @@ pub fn update(app: &App, model: &mut Model, _update: Update) {
                 println!("{}", g_i);
                 (0..NUM_PAIRS)
                     .map(|p_i| {
-
-                        let mut rng = ChaCha8Rng::seed_from_u64(SEED as u64 +  g_i as u64 + p_i as u64);
+                        let mut rng =
+                            ChaCha8Rng::seed_from_u64(SEED as u64 + g_i as u64 + p_i as u64);
 
                         let x1 = dbg!(map_range(
                             rng.next_u64(),
@@ -76,17 +83,17 @@ pub fn update(app: &App, model: &mut Model, _update: Update) {
                             u64::MAX,
                             // dbg!((window.w() / NUM_GROUPS as f32 * g_i as f32) - half_width),
                             // dbg!((window.w() / NUM_GROUPS as f32 * (g_i as f32 + 1.0)) - half_width),
-                            dbg!((window.w() / NUM_PAIRS as f32 * p_i as f32) - half_width - 10.0),
-                            dbg!((window.w() / NUM_PAIRS as f32 * (p_i as f32 + 1.0)) - half_width + 10.0),
-
+                            (window.w() / NUM_PAIRS as f32 * p_i as f32) - half_width - 10.0,
+                            (window.w() / NUM_PAIRS as f32 * (p_i as f32 + 1.0)) - half_width
+                                + 10.0,
                         ));
-                        let x2 = dbg!(map_range(
+                        let x2 = map_range(
                             rng.next_u64(),
                             u64::MIN,
                             u64::MAX,
-                            x1 - ( window.w() / NUM_PAIRS as f32 ),
-                            x1 + ( window.w() / NUM_PAIRS as f32 ),
-                        ));
+                            x1 - (window.w() / NUM_PAIRS as f32),
+                            x1 + (window.w() / NUM_PAIRS as f32),
+                        );
                         let y = (-window.h() / 2.0) + 20.0;
 
                         let bounds = Rect::from_wh(vec2(window.w() + 50.0, window.h() - 20.0));
