@@ -17,6 +17,7 @@ pub struct Particle {
     step: f32,
     points: Vec<Point2>,
     stop: bool,
+    default_point: Point2
 }
 
 impl fmt::Debug for Particle {
@@ -46,6 +47,7 @@ impl Particle {
             step: 0.2,
             points: vec![],
             stop: false,
+            default_point: pt2(0.0, 0.0)
         }
     }
 
@@ -111,16 +113,42 @@ impl Particle {
         &self.points
     }
 
+    pub fn top(&self) -> &Vec2 {
+        self.points
+            .iter()
+            .reduce(|a, b| if a.y >= b.y { a } else { b })
+            .unwrap_or(&self.default_point)
+
+    }
+
+    pub fn bottom(&self) -> &Vec2 {
+        self.points
+            .iter()
+            .reduce(|a, b| if a.y <= b.y { a } else { b })
+            .unwrap_or(&self.default_point)
+
+    }
+
+    pub fn left(&self) -> &Vec2 {
+        self.points
+            .iter()
+            .reduce(|a, b| if a.x <= b.x { a } else { b })
+            .unwrap_or(&self.default_point)
+
+    }
+
+    pub fn right(&self) -> &Vec2 {
+        self.points
+            .iter()
+            .reduce(|a, b| if a.x >= b.x { a } else { b })
+            .unwrap_or(&self.default_point)
+    }
+
     pub fn height(&self) -> f32 {
-        let (max, min) = self.points.iter().map(|p| p.y).fold(
-            (std::f32::MIN, std::f32::MAX),
-            |acc, x| match acc {
-                (max, min) if x > max && x < min => (x, x),
-                (max, min) if x > max => (x, min),
-                (max, min) if x < min => (max, x),
-                _ => acc,
-            },
-        );
-        max - min
+        self.top().y - self.bottom().y
+    }
+
+    pub fn width(&self) -> f32 {
+        self.right().x - self.left().x
     }
 }
